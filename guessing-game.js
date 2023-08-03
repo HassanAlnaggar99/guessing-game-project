@@ -1,4 +1,4 @@
-let secretNumber = 5;
+let secretNumber = 14;
 
 const readline = require("readline");
 
@@ -8,12 +8,12 @@ const rl = readline.createInterface({
 });
 
 function checkGuess(num) {
-  console.log(`input: ${num}`);
+  // console.log(`input: ${num}`);
   if (num > secretNumber) {
-    console.log("Too high");
+    console.log("Too high.");
     return false;
   } else if (num < secretNumber) {
-    console.log("Too low");
+    console.log("Too low.");
     return false;
   } else {
     console.log("Correct!");
@@ -22,5 +22,17 @@ function checkGuess(num) {
 }
 
 function askGuess() {
+  rl.question("Enter a guess: ", (ans) => {
+    let num = Number(ans);
+    let guess = checkGuess(num);
 
+    if (guess) {
+      console.log("YOU WON!");
+      rl.close();
+    } else {  // if guess == false
+      askGuess();
+    }
+  });
 }
+
+askGuess();
