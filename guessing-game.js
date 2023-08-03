@@ -22,7 +22,18 @@ function checkGuess(num) {
   }
 }
 
-function askGuess() {
+function askGuess(guessRemaining) {
+  if (guessRemaining !== undefined) {
+    if (guessRemaining === 0) {
+      console.log("You Lose");
+      console.log(`The answer is ${secretNumber}`);
+      rl.close();
+      return;
+    } else {
+      guessRemaining--;
+    }
+  }
+
   rl.question("Enter a guess: ", (ans) => {
     let num = Number(ans);
     let guess = checkGuess(num);
@@ -31,7 +42,7 @@ function askGuess() {
       console.log("YOU WON!");
       rl.close();
     } else {  // if guess == false
-      askGuess();
+      askGuess(guessRemaining);
     }
   });
 }
@@ -41,7 +52,7 @@ function randomInRange(min, max) {
   return ans;
 }
 
-function askRange() {
+function askRange(guessLimit) {
   rl.question("Enter a min number: ", min => {
     min = Number(min);
     rl.question("Enter a max number: ", max => {
@@ -49,13 +60,19 @@ function askRange() {
 
       secretNumber = randomInRange(min, max);
       console.log(`I'm thinking of a number between ${min} and ${max}...`);
-      askGuess();
-      // rl.close();
-});
+
+      // let guessRemaining = 5;
+      askGuess(guessLimit);
+    });
   });
+}
+
+function askLimit() {
+  rl.question("Enter max number of attempts: ", askRange);
 }
 
 // askGuess();
 // for (let i = 0; i < 20; i++)
 //   console.log(randomInRange(15, 20));
-askRange();
+// askRange();
+askLimit();
